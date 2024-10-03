@@ -3,12 +3,13 @@ import fs from 'fs'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  api_key: process.env.CLOUDINARY_CLOUD_KEY,
+  api_secret: process.env.CLOUDINARY_CLOUD_SECRET,
 })
 
 const uploadOnCloudinary = async (localFilePath) => {
   try {
+    // console.log('File path: ', localFilePath)
     if (!localFilePath) return null
     //upload the file on cloudinary
     const response = await cloudinary.uploader.upload(localFilePath, {
@@ -24,4 +25,8 @@ const uploadOnCloudinary = async (localFilePath) => {
   }
 }
 
-export { uploadOnCloudinary }
+const deleteFromCloudinary = async (public_id) => {
+  return await cloudinary.uploader.destroy(public_id)
+}
+
+export { uploadOnCloudinary, deleteFromCloudinary }
